@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>¿Cuántos cerdos ferales habrá en Tamaulipas?</title>
+<style>
+:root{--bg:#f6f7f9;--card:#fff;--tx:#1d2430;--mut:#667085;--bd:#d9dde3;--ac:#2f80c0;--c1:#d9534f;--c2:#e0932b;--c3:#2a9fc9;--ck:#8a8f2a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171c24;--card:#212833;--tx:#e8ebf0;--mut:#9aa4b2;--bd:#3a4452;--ac:#6bb6e0;--c1:#e8837c;--c2:#e9b35a;--c3:#6bc4e6;--ck:#b5ba4a}}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:Georgia,"Times New Roman",serif;padding:20px}
+h1{font-size:26px;margin:0 0 4px}.sub{color:var(--mut);font-size:14px;margin:0 0 18px;max-width:640px}
+.wrap{display:grid;grid-template-columns:minmax(260px,330px) 1fr;gap:16px}
+@media(max-width:800px){.wrap{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;padding:16px;min-width:0}
+h2{font-size:15px;margin:14px 0 8px}h2:first-child{margin-top:0}
+.row{display:flex;justify-content:space-between;font:13px system-ui,sans-serif;color:var(--mut);margin-top:10px}
+.row b{color:var(--tx)}
+input[type=range]{width:100%;accent-color:var(--ac)}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+button{font:13px system-ui,sans-serif;background:transparent;color:var(--tx);border:1px solid var(--bd);border-radius:6px;padding:6px 10px;cursor:pointer}
+button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.formula{font:15px "Times New Roman",serif;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:10px;text-align:center;margin-bottom:6px}
+.kpi{font:13px system-ui,sans-serif;color:var(--mut);margin:8px 0 0}.kpi b{color:var(--tx)}
+.chart{width:100%;overflow-x:auto}canvas{width:100%;height:340px;display:block}
+.leg{display:flex;gap:14px;flex-wrap:wrap;font:13px system-ui,sans-serif;margin:8px 0}
+.leg i{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px}
+.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;font:13px system-ui,sans-serif}
+th,td{padding:7px 8px;border-bottom:1px solid var(--bd);text-align:right;white-space:nowrap}th:first-child,td:first-child{text-align:left}
+.note{font:12.5px/1.5 system-ui,sans-serif;color:var(--mut);margin-top:12px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}.pane{display:none}.pane.on{display:block}
+.eq{font:20px "Times New Roman",serif;text-align:center;background:var(--bg);border:1px solid var(--bd);border-radius:6px;padding:14px;margin:10px 0}
+td.l,th.l{text-align:left;white-space:normal}.card p{font:14px/1.55 system-ui,sans-serif;margin:6px 0}
+</style></head><body>
+<h1>Modelo de población de cerdos ferales</h1>
+<div class="tabs"><button id="t1" class="on">1. Modelo</button><button id="t2">2. Simulación</button></div>
+
+<div class="pane on" id="p1"><div class="card">
+ <h2>Objetivo del modelo</h2>
+ <p>Proyectar cómo cambia, de un año al siguiente, el número de hembras reproductoras de cerdo feral a partir de su reproducción y de la supervivencia de las crías, y evaluar cómo la caza y la capacidad máxima del ambiente limitan ese crecimiento.</p>
+ <h2>Modelo base</h2>
+ <div class="eq">F<sub>n+1</sub> = F<sub>n</sub> · L · N · (1 − M) · q</div>
+ <p>Cada hembra reproductora produce, en promedio, L·N·(1−M)·q hembras reproductoras nuevas por año. Llamamos <b>λ = L·N·(1−M)·q</b> a ese factor: si λ &gt; 1 la población crece sin límite.</p>
+ <h2>Variables</h2>
+ <div class="tw"><table>
+ <tr><th class="l">Variable</th><th class="l">Significado</th><th class="l">Valores</th></tr>
+ <tr><td class="l">F<sub>n</sub></td><td class="l">Cantidad de hembras reproductoras en la generación actual</td><td class="l">F₀ es el valor inicial</td></tr>
+ <tr><td class="l">L</td><td class="l">Número de camadas por año</td><td class="l">1.5 ≤ L ≤ 2</td></tr>
+ <tr><td class="l">N</td><td class="l">Promedio de crías por camada</td><td class="l">N = 6</td></tr>
+ <tr><td class="l">M</td><td class="l">Tasa de mortalidad juvenil</td><td class="l">0.30 ≤ M ≤ 0.50</td></tr>
+ <tr><td class="l">1 − M</td><td class="l">Proporción de crías que sobreviven</td><td class="l">—</td></tr>
+ <tr><td class="l">q</td><td class="l">Proporción de hembras entre las crías supervivientes</td><td class="l">0 &lt; q &lt; 1</td></tr>
+ <tr><td class="l">h</td><td class="l">Factor de caza: fracción de hembras removidas cada año (se añade al modelo)</td><td class="l">0 ≤ h &lt; 1</td></tr>
+ <tr><td class="l">K</td><td class="l">Capacidad máxima de hembras que soporta el ambiente (se añade al modelo)</td><td class="l">K &gt; 0</td></tr>
+ </table></div>
+ <h2>Modelo con caza y capacidad máxima</h2>
+ <div class="eq">F′ = F<sub>n</sub> · (1 − h)<br>F<sub>n+1</sub> = λ · F′ / (1 + (λ − 1) · F′ / K)</div>
+ <p>Primero se retira la fracción h por caza. Luego las hembras restantes se reproducen con el factor λ, pero la natalidad se frena al acercarse a K (forma Beverton-Holt). Con h = 0 y K muy grande se recupera el modelo base.</p>
+ <p>Para que la población no crezca sin control debe cumplirse (1 − h)·λ ≤ 1, es decir, h ≥ 1 − 1/λ.</p>
+ <button id="go">Ir a la simulación →</button>
+</div></div>
+
+<div class="pane" id="p2"><div class="wrap">
+<div class="card">
+ <h2>Parámetros</h2>
+ <div class="row"><span>F₀: hembras reproductoras iniciales</span><b id="v_F0"></b></div><input type="range" id="F0" min="1" max="1000" step="1" value="100">
+ <div class="row"><span>L: camadas por año</span><b id="v_L"></b></div><input type="range" id="L" min="1.5" max="2" step="0.05" value="1.75">
+ <div class="row"><span>N: crías por camada</span><b id="v_N"></b></div><input type="range" id="N" min="1" max="12" step="1" value="6">
+ <div class="row"><span>M: mortalidad juvenil</span><b id="v_M"></b></div><input type="range" id="M" min="0.30" max="0.50" step="0.01" value="0.40">
+ <div class="row"><span>q: proporción de hembras</span><b id="v_q"></b></div><input type="range" id="q" min="0.1" max="0.9" step="0.01" value="0.5">
+ <div class="row"><span>h: caza (fracción por año)</span><b id="v_h"></b></div><input type="range" id="h" min="0" max="0.95" step="0.01" value="0.3">
+ <div class="row"><span>K: capacidad máxima (hembras)</span><b id="v_K"></b></div><input type="range" id="K" min="100" max="10000" step="100" value="1000">
+ <div class="row"><span>Años a simular</span><b id="v_T"></b></div><input type="range" id="T" min="1" max="30" step="1" value="15">
+</div>
+<div class="card">
+ <h2>Hembras reproductoras por año (F)</h2>
+ <div class="chart"><canvas id="cv" width="760" height="340"></canvas></div>
+ <div class="leg"><span><i style="background:var(--c1)"></i>F con caza y K</span><span><i style="background:var(--c3)"></i>F sin caza ni K (modelo base)</span><span><i style="background:var(--ck)"></i>K</span></div>
+ <p class="kpi" id="kpi"></p>
+ <div class="tw"><table id="tb"></table></div>
+</div></div></div>
+<script>
+const $=id=>document.getElementById(id);
+const ids=["F0","L","N","M","q","h","K","T"];
+const val=i=>parseFloat($(i).value);
+const fmt=n=>n<1e4?n.toLocaleString("es-MX",{maximumFractionDigits:1}):n<1e9?Math.round(n).toLocaleString("es-MX"):n.toExponential(2);
+function tab(n){["1","2"].forEach(i=>{$("p"+i).classList.toggle("on",i==n);$("t"+i).classList.toggle("on",i==n)});if(n==2)update()}
+$("t1").onclick=()=>tab(1);$("t2").onclick=()=>tab(2);$("go").onclick=()=>tab(2);
+function update(){
+ const dec={F0:0,L:2,N:0,M:2,q:2,h:2,K:0,T:0};
+ ids.forEach(i=>$("v_"+i).textContent=val(i).toFixed(dec[i]));
+ const lam=val("L")*val("N")*(1-val("M"))*val("q"),h=val("h"),K=val("K"),T=val("T");
+ const F=[val("F0")],B=[val("F0")];
+ for(let t=0;t<T;t++){const f=F[t]*(1-h);F.push(lam*f/(1+(lam-1)*f/K));B.push(B[t]*lam)}
+ const cv=$("cv"),c=cv.getContext("2d"),W=cv.width,H=cv.height,p={l:70,r:14,t:12,b:28};
+ const cs=getComputedStyle(document.documentElement),g=n=>cs.getPropertyValue(n).trim();
+ c.clearRect(0,0,W,H);const ymax=Math.max(...F,K)*1.1;
+ const X=t=>p.l+(W-p.l-p.r)*t/T,Y=v=>H-p.b-(H-p.t-p.b)*Math.min(v,ymax)/ymax;
+ c.font="11px system-ui,sans-serif";c.fillStyle=g("--mut");c.strokeStyle=g("--bd");c.lineWidth=1;
+ for(let i=0;i<=4;i++){const v=ymax*i/4;c.beginPath();c.moveTo(p.l,Y(v));c.lineTo(W-p.r,Y(v));c.stroke();c.textAlign="right";c.fillText(fmt(v),p.l-6,Y(v)+4)}
+ c.textAlign="center";for(let t=0;t<=T;t+=Math.max(1,Math.ceil(T/10)))c.fillText(t,X(t),H-8);
+ c.setLineDash([5,4]);c.strokeStyle=g("--ck");c.beginPath();c.moveTo(p.l,Y(K));c.lineTo(W-p.r,Y(K));c.stroke();c.setLineDash([]);
+ c.strokeStyle=g("--c3");c.lineWidth=1.8;c.beginPath();B.forEach((v,t)=>t?c.lineTo(X(t),Y(v)):c.moveTo(X(t),Y(v)));c.stroke();
+ c.strokeStyle=g("--c1");c.lineWidth=2.4;c.beginPath();F.forEach((v,t)=>t?c.lineTo(X(t),Y(v)):c.moveTo(X(t),Y(v)));c.stroke();
+ const hmin=lam>1?1-1/lam:0;
+ $("kpi").innerHTML="λ = L·N·(1−M)·q = <b>"+lam.toFixed(3)+"</b> · Caza mínima para que no crezca: <b>"+(hmin*100).toFixed(1)+" %</b> por año · "+(h>=hmin?"con esta caza la población tiende a 0":"con esta caza la población se estabiliza cerca de <b>"+fmt(F[T])+"</b> hembras");
+ $("tb").innerHTML="<tr><th>Año</th><th>F (con caza y K)</th><th>F (modelo base)</th></tr>"+F.map((v,t)=>"<tr><td>"+t+"</td><td>"+fmt(v)+"</td><td>"+fmt(B[t])+"</td></tr>").join("");
+}
+ids.forEach(i=>$(i).addEventListener("input",update));
+</script>
+</body></html>
